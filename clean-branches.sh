@@ -2,8 +2,6 @@
 
 # forked from https://gist.github.com/TBonnin/4060788
 
-set -eu -o pipefail
-
 function green_echo {
     echo -e "\e[32m${1}\e[0m"
 }
