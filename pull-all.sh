@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -eu -o pipefail
-
 remote_branches=$(git branch -r | grep -v '\->')
 
 for remote_branch in $remote_branches; do
