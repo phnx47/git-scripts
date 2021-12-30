@@ -7,8 +7,8 @@ source $(dirname "$0")/echo.sh
 branch=${1}
 
 if [ -z "$branch" ]; then
-    red_echo "Please provide default branch!"
-    exit 1
+  red_echo "Please provide default branch!"
+  exit 1
 fi
 
 yellow_echo "Branches: '${branch}', 'develop' and 'dev' will not be deleted"
@@ -31,7 +31,7 @@ git branch -r --merged $branch | sed 's/ *origin\///' | grep -v $ignore
 
 read -p "Continue (y/n)? "
 if [ "$REPLY" == "y" ]; then
-    # Remove remote fully merged branches
-    git branch -r --merged $branch | sed 's/ *origin\///' | grep -v $ignore | xargs -I% git push origin :%
-    green_echo "Obsolete branches are removed"
+  # Remove remote fully merged branches
+  git branch -r --merged $branch | sed 's/ *origin\///' | grep -v $ignore | xargs -I% git push origin :%
+  green_echo "Obsolete branches are removed"
 fi
