@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 remote_branches=$(git branch -r | grep -v '\->')
 

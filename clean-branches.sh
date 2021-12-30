@@ -1,13 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# forked from https://gist.github.com/TBonnin/4060788
+set -e
 
-function green_echo {
-    echo -e "\e[32m${1}\e[0m"
-}
+source $(dirname "$0")/echo.sh
 
-branch=master
-ignore="master\|develop$"
+branch=${1}
+
+if [ -z "$branch" ]; then
+    red_echo "Please provide default branch!"
+    exit 1
+fi
+
+yellow_echo "Branches: '${branch}', 'develop' and 'dev' will not be deleted"
+
+ignore="$branch\|develop\|dev$"
 
 # This has to be run from $branch
 git checkout $branch
@@ -20,13 +26,12 @@ git remote prune origin
 git branch --merged $branch | grep -v $ignore | xargs git branch -d
 
 # Show remote fully merged branches
-echo "The following remote branches are fully merged and will be removed:"
+yellow_echo "The following remote branches are fully merged and will be removed:"
 git branch -r --merged $branch | sed 's/ *origin\///' | grep -v $ignore
 
 read -p "Continue (y/n)? "
-if [ "$REPLY" == "y" ]
-then
-   # Remove remote fully merged branches
-   git branch -r --merged $branch | sed 's/ *origin\///' | grep -v $ignore | xargs -I% git push origin :%
-   green_echo "Obsolete branches are removed"
+if [ "$REPLY" == "y" ]; then
+    # Remove remote fully merged branches
+    git branch -r --merged $branch | sed 's/ *origin\///' | grep -v $ignore | xargs -I% git push origin :%
+    green_echo "Obsolete branches are removed"
 fi
