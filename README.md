@@ -1,3 +1,3 @@
 # git-scripts
 
-My shell scripts for help me with git
+Shell scripts to help with git
