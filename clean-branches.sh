@@ -4,34 +4,30 @@ set -e
 
 source "$(dirname "$0")/echo.sh"
 
-branch=${1}
+green_echo "Clean branches started"
 
-if [ -z "$branch" ]; then
-  red_echo "Please provide default branch!"
-  exit 1
-fi
+default_branch="$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)"
+blue_echo "Default branch is '${default_branch}'"
 
-yellow_echo "Branches: '${branch}', 'develop' and 'dev' will not be deleted"
+ignore="main|master|develop|dev"
 
-ignore="$branch\|develop\|dev$"
-
-# This has to be run from $branch
-git checkout "$branch"
+git checkout "${default_branch}"
 
 # Update our list of remotes
 git fetch
 git remote prune origin
 
 # Remove local fully merged branches
-git branch --merged "$branch" | grep -v "$ignore" | xargs git branch -d
+light_green_echo "Removing local branches..."
+git branch --merged "${default_branch}" | grep -vE "${ignore}" |  xargs git branch -d || true
 
-# Show remote fully merged branches
-yellow_echo "The following remote branches are fully merged and will be removed:"
-git branch -r --merged "$branch" | sed 's/ *origin\///' | grep -v "$ignore"
+# Remove remote fully merged branches
+light_green_echo "Removing remote branches..."
+git branch -r --merged "${default_branch}" | sed 's/ *origin\///' | grep -vE "${ignore}" || true
 
 read -rp "Continue (y/n)? "
 if [ "$REPLY" == "y" ]; then
-  # Remove remote fully merged branches
-  git branch -r --merged "$branch" | sed 's/ *origin\///' | grep -v "$ignore" | xargs -I% git push origin :%
-  green_echo "Obsolete branches are removed"
+  git branch -r --merged "${default_branch}" | sed 's/ *origin\///' | grep -vE "${ignore}" | xargs -I% git push origin :%
 fi
+
+green_echo "Clean branches finished!"
