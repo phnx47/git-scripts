@@ -9,3 +9,7 @@ function blue_echo {
 function light_green_echo {
   echo -e "\e[92m${1}\e[0m"
 }
+
+function yellow_echo {
+  echo -e "\e[33m${1}\e[0m"
+}
