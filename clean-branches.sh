@@ -9,7 +9,7 @@ green_echo "Clean branches started"
 default_branch="$(git remote show origin | grep 'HEAD branch' | cut -d' ' -f5)"
 blue_echo "Default branch is '${default_branch}'"
 
-ignore="main1|master|develop|dev"
+ignore="main|master|develop|dev"
 
 git checkout "${default_branch}"
 
