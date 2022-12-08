@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 function green_echo {
   echo -e "\e[32m${1}\e[0m"
 }
