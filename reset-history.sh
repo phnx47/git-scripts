@@ -4,4 +4,4 @@ set -eu -o pipefail
 
 msg=${1}
 
-git reset "$(git commit-tree HEAD^"{tree}" -m "${msg}")"
+git reset "$(git commit-tree HEAD^"{tree}" -S -m "${msg}")"
