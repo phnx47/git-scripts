@@ -23,7 +23,7 @@ if [ -z "$local_branches" ]; then
 else
   blue_echo "Deleting local branches..."
   yellow_echo "${local_branches}"
-  read -rp "Delete these local branches (y/n)?"
+  read -rp "Delete these local branches (y/n)? "
   if [ "$REPLY" == "y" ]; then
     echo "${local_branches}" | xargs git branch -d
     green_echo "All local branches deleted!"
@@ -37,7 +37,7 @@ if [ -z "$remote_branches" ]; then
 else
   blue_echo "Deleting remote branches..."
   yellow_echo "${remote_branches}"
-  read -rp "Delete these remote branches (y/n)?"
+  read -rp "Delete these remote branches (y/n)? "
   if [ "$REPLY" == "y" ]; then
     echo "${remote_branches}" | xargs -I% git push origin :%
     green_echo "All remote branches deleted!"
