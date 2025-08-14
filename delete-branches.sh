@@ -63,12 +63,10 @@ ignore="main|master|develop|dev|${default_branch}"
 
 git checkout "${default_branch}"
 
-# Update remotes if working with remote branches
-if [[ "$DELETE_REMOTE" == "true" ]]; then
-    git fetch
-    git remote prune origin
-    green_echo "All remote branches pruned!"
-fi
+# Update remotes and prune stale references
+git fetch
+git remote prune origin
+green_echo "Remote references updated and pruned!"
 
 # Function to delete local branches
 delete_local_branches() {
